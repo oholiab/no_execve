@@ -109,10 +109,14 @@ determine:
 * `execve`/`fexecve` call pattern which could be monitored using eBPF.
 * patterns in linked/memory file descriptors in the `/proc` filesystem
 * Presence of `LD_PRELOAD` in environment variables
-* `fexecve` gathering by the audit subsystem, although you'd have to determine
-  the actual content of the binary in the file descriptor in order to identify
-  it, as there's no need for the user to be honest about the "name" for their
+* `fexecve` gathering by eBPF, although you'd have to determine the actual
+  content of the binary in the file descriptor in order to identify it, as
+  there's no need for the user to be honest about the "name" for their
   memory-backed fd.
+  * Notably I've *not* suggested using the audit subsystem for this because
+    unlike its BSD cousins, Linux implements `fexecve` as a userspace function
+    instead of a syscall, meaning it's not visible to the audit subsystem or
+    `strace`.
 
 # Followup work
 ## Errata and questions
