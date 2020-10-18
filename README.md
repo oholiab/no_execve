@@ -1,14 +1,17 @@
 # What
-An experiment in circumventing the commonly suggested Linux kernel audit
-subsystem practice of gathering all `execve` syscalls on a host in order to
-know every command that is run.
+An experiment in circumventing the commonly suggested practice of using the
+Linux kernel audit subsystem to gathering all `execve` syscalls on a host in
+order to know every command that is run.
 
-This is a very simple shared object which defines an alternative `execve` which
-doesn't actually send the syscall but instead loads the target binary into a
-memory backed file descriptor and then executing *that* with `fexecve` instead.
+It's not an ironclad tactic!
+
+This is a very simple shared object which defines an alternative `execve`
+function. The new function doesn't actually send the syscall but instead loads
+the target binary into a memory backed file descriptor and then executes *that*
+with `fexecve` instead.
 
 As an added bonus, these use anonymous filehandles in memory so other than
-indications in `/proc` this is otherwise very stealthy.
+indications in `/proc` this is very stealthy.
 
 # Demo
 Build with `make` and then:
